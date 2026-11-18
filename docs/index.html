@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ILU Identification Data Chart</title>
+<meta name="description" content="Interactive data chart of the scoping review on automatic Intermodal Loading Unit (ILU) identification using computer vision: datasets, studies and figures.">
+<link rel="stylesheet" href="style.css">
+<script>
+  try { const t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#datasets">Skip to the datasets</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <p class="eyebrow">Scoping review · data chart</p>
+    <h1>Intermodal Loading Unit Identification</h1>
+    <p class="lede">An interactive view of the data chart behind
+      <a href="https://arxiv.org/abs/2509.17707"><cite>Automatic Intermodal Loading Unit Identification using Computer Vision: A Scoping Review</cite></a>:
+      every charted study, its dataset, method, evaluation and the challenging conditions it reports, with verbatim evidence for each coded value.</p>
+    <div class="header-actions">
+      <a class="button primary" href="https://arxiv.org/abs/2509.17707">Read the review</a>
+      <a class="button" href="data/ilu_identification_data_chart.xlsx" download>Data chart (.xlsx)</a>
+      <a class="button" href="data/ilu_identification_data_chart.csv" download>(.csv)</a>
+      <a class="button" href="https://github.com/egulsoylu/awesome-ilu-identification">GitHub</a>
+      <button class="button icon" id="theme-toggle" type="button" aria-label="Switch between light and dark theme" title="Switch theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+      </button>
+    </div>
+    <div class="stats" id="stats" aria-label="Key numbers"></div>
+  </div>
+</header>
+
+<div class="toolbar" id="toolbar">
+  <div class="wrap toolbar-row">
+    <nav class="toc" aria-label="Sections">
+      <a href="#datasets">Datasets</a><a href="#figures">Figures</a><a href="#studies">Studies</a><a href="#about">About</a>
+    </nav>
+    <label class="search">
+      <span class="visually-hidden">Search studies</span>
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M10 3a7 7 0 0 1 5.6 11.2l4.6 4.6-1.4 1.4-4.6-4.6A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+      <input id="search" type="search" placeholder="Search title, author, venue, method…" autocomplete="off">
+    </label>
+    <div class="chips" id="chips" aria-live="polite"></div>
+    <p class="count" id="count" aria-live="polite"></p>
+  </div>
+</div>
+
+<main>
+  <section id="datasets" class="wrap section">
+    <div class="section-head">
+      <h2>Datasets</h2>
+      <p>Only a few datasets are public. The cards list the public datasets (Table 4 of the review), and the table gives the dataset of every study. Click a column header to sort, a row to see the full record with its evidence.</p>
+    </div>
+    <div class="cards" id="dataset-cards"></div>
+    <div class="table-wrap" id="dataset-table"></div>
+  </section>
+
+  <section id="figures" class="wrap section">
+    <div class="section-head">
+      <h2>Figures</h2>
+      <p>The data figures of the review, drawn from the chart. Hover for the numbers. Click a bar, marker or legend entry to filter the tables (click again to undo).</p>
+    </div>
+    <div class="figure-grid">
+      <figure class="fig wide" id="fig-map">
+        <figcaption><span class="fig-no">Fig. 2</span> Countries of the authors' affiliations</figcaption>
+        <div class="fig-tools"><button type="button" class="mini" data-zoom="in" aria-label="Zoom in">+</button><button type="button" class="mini" data-zoom="out" aria-label="Zoom out">−</button><button type="button" class="mini" data-zoom="reset">Reset</button></div>
+        <div class="chart" data-chart="map"></div>
+        <div class="legend" data-legend="map"></div>
+        <p class="note">Marker area ∝ number of articles, colour = continent. A study with authors from several countries counts once per country. Drag to pan, use the buttons or Ctrl + scroll to zoom.</p>
+      </figure>
+      <figure class="fig" id="fig-ranks">
+        <figcaption><span class="fig-no">Fig. 3</span> Ranking of publication outlets by year</figcaption>
+        <div class="chart" data-chart="ranks"></div>
+        <div class="legend" data-legend="ranks"></div>
+        <p class="note">A–C: CORE conference ranks. Q1–Q4: Scimago journal quartiles. Unranked: in neither ranking. Years without publications are omitted, and 2026 covers publications up to the search cut-off of 12 October 2026.</p>
+      </figure>
+      <figure class="fig" id="fig-methods">
+        <figcaption><span class="fig-no">Fig. 5</span> Method classes over time</figcaption>
+        <div class="chart" data-chart="methods"></div>
+        <div class="legend" data-legend="methods"></div>
+        <p class="note">DIP: digital image processing. ML: machine learning. DL: deep learning. The last period covers 2026 only, up to the search cut-off.</p>
+      </figure>
+      <figure class="fig" id="fig-accuracy">
+        <figcaption><span class="fig-no">Fig. 7</span> End-to-end accuracy versus publication year</figcaption>
+        <div class="chart" data-chart="accuracy"></div>
+        <div class="legend" data-legend="accuracy"></div>
+        <p class="note">End-to-end accuracy: the printed rate of complete ID codes read correctly by the whole pipeline on the whole test set. Click a point to open the study.</p>
+      </figure>
+      <figure class="fig" id="fig-failures">
+        <figcaption><span class="fig-no">Fig. 8</span> Reported failure modes and challenging conditions</figcaption>
+        <div class="chart" data-chart="failures"></div>
+        <div class="drill" id="failure-drill"></div>
+        <p class="note">A study appears in every category in which it reports a condition. Percentages are of all studies. Click a category to see its conditions.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section id="studies" class="wrap section">
+    <div class="section-head">
+      <h2>Studies</h2>
+      <p>All charted studies. Click a column header to sort, a row to open the full record.</p>
+    </div>
+    <div class="table-wrap" id="study-table"></div>
+  </section>
+
+  <section id="about" class="wrap section about">
+    <div class="section-head"><h2>About the data</h2></div>
+    <div class="about-grid">
+      <div>
+        <p>The review follows PRISMA-ScR. Studies were found in Google Scholar, dblp and OpenAlex (cut-off 12 October 2026), screened, and charted on one set of data items. Each coded value is backed by whole-sentence quotes from the study, shown under <em>Evidence</em> in a study's record. <em>Not reported</em> means the study is silent on the item.</p>
+        <p>The coding rule of every column (what counts as end-to-end accuracy, as an image, as a camera position, …) is given in Supplementary Section S1 of the review. Corrections are welcome as <a href="https://github.com/egulsoylu/awesome-ilu-identification/issues">GitHub issues</a>.</p>
+      </div>
+      <div>
+        <p class="label">Cite the review</p>
+        <pre class="bibtex" id="bibtex"></pre>
+        <button class="button" type="button" id="copy-bibtex">Copy BibTeX</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap footer">
+  <p>Gülsoylu, Abdelhalim, Kara Boztas, Grasse, Jahn, Frintrop, Edinger. Figures use the Okabe-Ito colour palette.</p>
+</footer>
+
+<dialog id="detail" aria-labelledby="detail-title"></dialog>
+<div id="tip" class="tip" role="tooltip" hidden></div>
+<noscript><p class="wrap">This page needs JavaScript. The data chart is also available as <a href="data/ilu_identification_data_chart.xlsx">.xlsx</a>.</p></noscript>
+
+<script src="vendor/d3.v7.9.0.min.js"></script>
+<script src="vendor/topojson-client.3.1.0.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
