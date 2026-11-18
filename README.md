@@ -432,7 +432,7 @@ Jump to: [2026](#2026) · [2025](#2025) · [2024](#2024) · [2023](#2023) · [20
 
 ## Data chart
 
-[`ilu_identification_data_chart.xlsx`](docs/data/ilu_identification_data_chart.xlsx) ([CSV](docs/data/ilu_identification_data_chart.csv), pipe-delimited) holds one row per study and 194 columns: bibliographic data, contributions and methods, camera position, dataset origin, availability and size, ILU types, 54 challenging conditions grouped into 12 categories, location, evaluation metrics and results, end-to-end accuracy and speed, hardware, deployment, future directions and funding. **Every coded value is backed by verbatim quotes from the study** in the column `<column> evidence`. The coding rules of every column are in Supplementary Section S1 of the review.
+[`ilu_identification_data_chart.xlsx`](docs/data/ilu_identification_data_chart.xlsx) ([CSV](docs/data/ilu_identification_data_chart.csv), pipe-delimited) holds one row per study and 194 columns: bibliographic data, contributions and methods, camera position, dataset origin, availability and size, ILU types, 54 challenging conditions grouped into 12 categories, location, evaluation metrics and results, end-to-end accuracy and speed, hardware, deployment, future directions and funding. **Every coded value is backed by verbatim quotes from the study** in the column `<column> evidence`. 
 
 ## Citation
 
